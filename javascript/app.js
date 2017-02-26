@@ -36,7 +36,7 @@ $(document).ready(function() {
 //This is the function that is pulling the gifs from the giffy webpage.
     function GifSearch(){
       $("#gifsDiv").html(" ")
-      console.log(this);
+      //console.log(this);
       var name = $(this).attr('data-name');
       var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=";
       var APIkey = "dc6zaTOxFJmzC&limit=10";
@@ -44,16 +44,29 @@ $(document).ready(function() {
         url: queryURL+APIkey,
         method: "GET"
       }).done(function(response){
-        console.log(this);
+        //console.log(this);
           for (i=0; i<response.data.length; i++) {
           var g = $("<img>");
+          var t = $("<div>");
+          var br = $("<br>");
+
           //this creates an image
             g.attr("src", response.data[i].images.original_still.url);
             g.attr("data-still", response.data[i].images.original_still.url);
             g.attr("data-animated", response.data[i].images.original.url);
             g.attr("data-isstill","true");
             g.addClass('giffy');
-          $("#gifsDiv").append(g)
+            t.text("Rating: " + response.data[i].rating);
+            t.addClass('ratingDiv');
+
+            t.append(br);
+            t.append(g);
+            $("#gifsDiv").append(t);
+
+          // $("#gifsDiv").append(g);
+          // $("#gifsDiv").append(t);
+
+          console.log(response.data[i].rating);
           }
       })
     }
